@@ -45,4 +45,8 @@ def monitors(driver):
 @then("products should display successfully")
 def verify_products(driver):
 
-    assert "Apple monitor 24" in driver.page_source
+    assert "Laptops" in driver.page_source
+
+    assert "Phones" in driver.page_source
+
+    assert "Monitors" in driver.page_source

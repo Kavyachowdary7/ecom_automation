@@ -1,3 +1,5 @@
+import time
+
 import pytest
 
 from selenium import webdriver
@@ -24,6 +26,11 @@ def driver():
         "https://www.demoblaze.com/index.html"
     )
 
+
     yield driver
 
+
     driver.quit()
+
+    # gap before next feature starts
+    time.sleep(0.5)
