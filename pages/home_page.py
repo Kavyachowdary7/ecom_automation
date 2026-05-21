@@ -2,34 +2,18 @@ import time
 
 from selenium.webdriver.common.by import By
 
+from selenium.webdriver.support.ui import WebDriverWait
+
+from selenium.webdriver.support import expected_conditions as EC
+
 from pages.base_page import BasePage
 
 
 class HomePage(BasePage):
 
-    NEXT_BUTTON = (
-        By.CLASS_NAME,
-        "carousel-control-next"
-    )
-
-    PREVIOUS_BUTTON = (
-        By.CLASS_NAME,
-        "carousel-control-prev"
-    )
-
     LAPTOPS = (
         By.XPATH,
         "//a[text()='Laptops']"
-    )
-
-    PHONES = (
-        By.XPATH,
-        "//a[text()='Phones']"
-    )
-
-    MONITORS = (
-        By.XPATH,
-        "//a[text()='Monitors']"
     )
 
     PRODUCT = (
@@ -37,51 +21,25 @@ class HomePage(BasePage):
         "//a[text()='Sony vaio i5']"
     )
 
+    NEXT_BUTTON = (
+        By.CSS_SELECTOR,
+        ".carousel-control-next"
+    )
+
     def click_next(self):
 
-        next_button = self.find_element(
-            self.NEXT_BUTTON
+        next_button = WebDriverWait(
+            self.driver,
+            20
+        ).until(
+            EC.element_to_be_clickable(
+                self.NEXT_BUTTON
+            )
         )
 
-        # First banner movement
         self.driver.execute_script(
             "arguments[0].click();",
             next_button
-        )
-
-        time.sleep(2)
-
-        # Second banner movement
-        self.driver.execute_script(
-            "arguments[0].click();",
-            next_button
-        )
-
-        time.sleep(2)
-
-        # Scroll down slightly
-        self.driver.execute_script(
-            "window.scrollBy(0, 300);"
-        )
-
-        time.sleep(2)
-
-        # Scroll back to top
-        self.driver.execute_script(
-            "window.scrollTo(0, 0);"
-        )
-
-        time.sleep(2)
-
-    def click_previous(self):
-
-        previous_button = self.find_element(
-            self.PREVIOUS_BUTTON
-        )
-
-        self.driver.execute_script(
-            "arguments[0].click();",
-            previous_button
         )
 
         time.sleep(2)
@@ -92,23 +50,7 @@ class HomePage(BasePage):
             self.LAPTOPS
         )
 
-        time.sleep(2)
-
-    def click_phones(self):
-
-        self.click_element(
-            self.PHONES
-        )
-
-        time.sleep(2)
-
-    def click_monitors(self):
-
-        self.click_element(
-            self.MONITORS
-        )
-
-        time.sleep(2)
+        time.sleep(3)
 
     def click_product(self):
 
@@ -117,3 +59,9 @@ class HomePage(BasePage):
         )
 
         time.sleep(2)
+
+    def get_product_text(self):
+
+        return self.get_text(
+            self.PRODUCT
+        )

@@ -19,5 +19,9 @@ pytest.main([
 
     "step_definitions/test_logout_steps.py",
 
-    "-v"
+    "-v",
+
+    "--html=report.html",
+
+    "--self-contained-html"
 ])

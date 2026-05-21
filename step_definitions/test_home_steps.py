@@ -1,13 +1,12 @@
-from pytest_bdd import (
-    scenarios,
-    given,
-    when,
-    then
-)
+from pytest_bdd import scenarios, given, when, then
 
 import time
 
-from pages.home_page import HomePage
+from selenium.webdriver.common.by import By
+
+from selenium.webdriver.support.ui import WebDriverWait
+
+from selenium.webdriver.support import expected_conditions as EC
 
 
 scenarios("../features/home.feature")
@@ -16,7 +15,17 @@ scenarios("../features/home.feature")
 @given("user is on homepage")
 def open_homepage(driver):
 
-    pass
+    driver.get(
+        "https://www.demoblaze.com/index.html"
+    )
+
+    WebDriverWait(driver, 30).until(
+        EC.presence_of_element_located(
+            (By.ID, "tbodyid")
+        )
+    )
+
+    time.sleep(2)
 
 
 @when("user scrolls homepage")
@@ -35,26 +44,13 @@ def scroll_homepage(driver):
     time.sleep(2)
 
 
-@when("user clicks next banner")
-def click_next_banner(driver):
-
-    home = HomePage(driver)
-
-    home.click_next()
-
-
-@when("user clicks previous banner")
-def click_previous_banner(driver):
-
-    home = HomePage(driver)
-
-    home.click_previous()
-
-
 @then("homepage should load successfully")
 def verify_homepage(driver):
 
-    assert (
-        "STORE"
-        in driver.page_source
+    WebDriverWait(driver, 20).until(
+        EC.visibility_of_element_located(
+            (By.ID, "nava")
+        )
     )
+
+    assert "STORE" in driver.page_source
